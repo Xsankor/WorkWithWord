@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 
@@ -14,6 +16,7 @@ namespace WorkWithWord
         public static void DocumentLoad(string savePath, ref object fileName, ref object newFileName, 
                                         ref string[][] keys)
         {
+            CloseProcess();
             //Создаём новый Word.Application
             Word.Application app = new Microsoft.Office.Interop.Word.Application();
 
@@ -98,6 +101,15 @@ namespace WorkWithWord
                 foreach (int index in list.CheckedIndices)
                     if (index != e.Index)
                         list.SetItemChecked(index, false);
+        }
+
+        private static void CloseProcess()
+        {
+            // убиваем все запущенные процессы WORD
+            foreach (Process proc in Process.GetProcessesByName("WINWORD"))
+            {
+                proc.Kill();
+            }
         }
     }
 }
