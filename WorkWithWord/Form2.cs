@@ -40,6 +40,11 @@ namespace WorkWithWord
             form_01.ShowDialog();
         }
 
+        private void открытьМестоСохраненияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", savePlace);
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             Form3 form_02 = new Form3(savePlace);

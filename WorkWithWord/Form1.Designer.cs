@@ -483,9 +483,12 @@
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label10);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(448, 657);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(448, 657);
             this.Name = "Form1";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Форма 01";
             this.Load += new System.EventHandler(this.Form1_Load);
