@@ -48,6 +48,8 @@
             this.dataBox21 = new System.Windows.Forms.TextBox();
             this.dataBox20 = new System.Windows.Forms.DateTimePicker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dataBox14 = new System.Windows.Forms.MaskedTextBox();
+            this.dataBox7 = new System.Windows.Forms.MaskedTextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -71,8 +73,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.dataBox7 = new System.Windows.Forms.MaskedTextBox();
-            this.dataBox14 = new System.Windows.Forms.MaskedTextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -252,6 +252,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(232, 565);
             this.panel1.TabIndex = 21;
+            // 
+            // dataBox14
+            // 
+            this.dataBox14.Location = new System.Drawing.Point(0, 345);
+            this.dataBox14.Mask = "000-000-000 00";
+            this.dataBox14.Name = "dataBox14";
+            this.dataBox14.Size = new System.Drawing.Size(89, 20);
+            this.dataBox14.TabIndex = 14;
+            // 
+            // dataBox7
+            // 
+            this.dataBox7.Culture = new System.Globalization.CultureInfo("eu-ES");
+            this.dataBox7.Location = new System.Drawing.Point(0, 191);
+            this.dataBox7.Mask = "L00.0";
+            this.dataBox7.Name = "dataBox7";
+            this.dataBox7.Size = new System.Drawing.Size(44, 20);
+            this.dataBox7.TabIndex = 7;
             // 
             // textBox1
             // 
@@ -438,23 +455,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // dataBox7
-            // 
-            this.dataBox7.Culture = new System.Globalization.CultureInfo("eu-ES");
-            this.dataBox7.Location = new System.Drawing.Point(0, 191);
-            this.dataBox7.Mask = "L00.0";
-            this.dataBox7.Name = "dataBox7";
-            this.dataBox7.Size = new System.Drawing.Size(44, 20);
-            this.dataBox7.TabIndex = 7;
-            // 
-            // dataBox14
-            // 
-            this.dataBox14.Location = new System.Drawing.Point(0, 345);
-            this.dataBox14.Mask = "000-000-000 00";
-            this.dataBox14.Name = "dataBox14";
-            this.dataBox14.Size = new System.Drawing.Size(89, 20);
-            this.dataBox14.TabIndex = 14;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -483,6 +483,8 @@
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label10);
+            this.MaximumSize = new System.Drawing.Size(448, 657);
+            this.MinimumSize = new System.Drawing.Size(448, 657);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Форма 01";
