@@ -1,28 +1,21 @@
-﻿using Microsoft.Office.Interop.Word;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
-using Word = Microsoft.Office.Interop.Word;
 
-namespace WindowsFormsApp1
+namespace WorkWithWord
 {
     public partial class Form1 : Form
     {
-        List<string> list;
-        string[][] keys;
         string savePath;
-
-        object missing = Type.Missing;
-        object replace = 2;
-
+        object fileName, newFileName;
+        string[][] keys;
+        
         public Form1(string path)
         {
             InitializeComponent();
-            list = new List<string>();
             keys = new string[22][];
             savePath = path;
         }
@@ -42,97 +35,9 @@ namespace WindowsFormsApp1
 
             CultureInfo myClt = new CultureInfo("eu-EU", false);
             dataBox7.Culture = myClt;
-        }
 
-        private void DocumentLoad() 
-        {
-            //Создаём новый Word.Application
-            Word.Application app = new Microsoft.Office.Interop.Word.Application();
-            
-            //Загружаем документ
-            Word.Document doc = null;
-
-            object fileName = Directory.GetCurrentDirectory() + @"\templates\template_01.docx";
-            object newFileName = savePath + @"\Форма № 01-ФР.docx";
-            object falseValue = false;
-            object trueValue = true;
-            
-            doc = app.Documents.Open(ref fileName);
-
-            //Очищаем параметры поиска
-            app.Selection.Find.ClearFormatting();
-            app.Selection.Find.Replacement.ClearFormatting();
-            CollectAllData();
-            SetupData(ref app);
-            
-            app.ActiveDocument.SaveAs(ref newFileName, ref missing, ref missing, ref missing, ref missing, ref missing,
-                                                  ref missing, ref missing, ref missing, ref missing, ref missing,
-                                                  ref missing, ref missing, ref missing, ref missing, ref missing);
-            app.Documents.Close();
-            app.Documents.Open(ref newFileName);
-        }
-
-        private void CollectAllData() 
-        {
-            List<Control> controls = new List<Control>();
-            foreach (Control control in panel1.Controls) 
-            {
-                controls.Add(control);     
-            }
-
-            controls = controls.OrderBy(x => x.TabIndex).ToList();
-
-            list.Clear();
-            foreach (Control control in controls)
-            {
-                if (control is System.Windows.Forms.CheckBox)
-                    list.Add(((System.Windows.Forms.CheckBox)control).Checked.ToString());
-                else
-                    list.Add(control.Text.Replace(".", string.Empty).Replace(",", "."));
-            }
-        }
-
-        private void SetupData(ref Word.Application app) 
-        {
-            //Задаём параметры замены и выполняем замену.
-            object findText, replaceWith; 
-
-            for (int i = 0; i < keys.Length; ++i)
-            {
-                findText = "";
-                replaceWith = "";
-                
-                for (int j = 0; j < keys[i].Length; ++j)
-                {
-                    if (keys[i].Length == 1 && !(i == 4 || i == 13 || i == 15))
-                    {
-                        replaceWith = list[i].ToString();
-                    }
-                    else if (i == 4 || i == 13 || i == 15)
-                    {
-                        replaceWith = "";
-                        if (list[i].Equals("М") && j == 0) replaceWith = "V";
-                        if (list[i].Equals("Ж") && j == 1) replaceWith = "V";
-
-                        if (list[i].Equals("True") && i == 13) replaceWith = "V";
-                        if (list[i].Equals("True") && i == 15) replaceWith = "V";
-                    }
-                    else if (list[i].Length <= j)
-                    {
-                        replaceWith = "";
-                    }
-                    else
-                    {
-                        replaceWith = list[i][j].ToString();
-                    }
-
-                    findText = keys[i][j].ToString();
-
-                    app.Selection.Find.Execute(ref findText, ref missing, ref missing, ref missing,
-                    ref missing, ref missing, ref missing, ref missing, ref missing, ref replaceWith,
-                    ref replace, ref missing, ref missing, ref missing, ref missing);
-                }
-            }
+            fileName = Directory.GetCurrentDirectory() + @"\templates\template_01.docx";
+            newFileName = savePath + @"\Форма № 01-ФР.docx";
         }
 
         private void CreateArrayKeys() 
@@ -163,16 +68,24 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DocumentLoad();
+            FillData();
+            Utilitty.DocumentLoad(savePath, ref fileName, ref newFileName, ref keys);
         }
 
         private void dataBox5_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var list = sender as CheckedListBox;
-            if (e.NewValue == CheckState.Checked)
-                foreach (int index in list.CheckedIndices)
-                    if (index != e.Index)
-                        list.SetItemChecked(index, false);
+            Utilitty.CheckedOnlyOne(ref sender, ref e);
+        }
+
+        private void FillData() 
+        {
+            List<Control> controls = new List<Control>();
+            foreach (Control control in panel1.Controls)
+            {
+                controls.Add(control);
+            }
+            controls = controls.OrderBy(x => x.TabIndex).ToList();
+            Utilitty.CollectAllData(ref controls);
         }
     }
 }
